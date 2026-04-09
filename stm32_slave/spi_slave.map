@@ -1,0 +1,150 @@
+
+There are no discarded input sections
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00100000         xr
+RAM              0x20000000         0x00020000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD main.o
+LOAD startup_stm32f407.o
+LOAD init_io.o
+LOAD spi_slave.o
+START GROUP
+LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m/nofp\libgcc.a
+LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m/nofp\libc.a
+END GROUP
+
+.text           0x08000000      0x2c4
+ *(.isr_vector)
+ .isr_vector    0x08000000       0x40 startup_stm32f407.o
+                0x08000000                vectors
+ *(.text)
+ .text          0x08000040       0x70 main.o
+                0x08000040                main
+ .text          0x080000b0       0x64 startup_stm32f407.o
+                0x080000b0                Reset_Handler
+                0x0800010c                Default_Handler
+ .text          0x08000114       0x58 init_io.o
+                0x08000114                init_LED_and_Switch
+ .text          0x0800016c      0x158 spi_slave.o
+                0x0800016c                SPI_Slave_SendResponse
+                0x08000208                SPI_Slave_Init
+                0x08000240                SPI_Slave_ListenCommand
+ *(.text.*)
+ *(.rodata)
+ *(.rodata.*)
+                0x080002c4                        . = ALIGN (0x4)
+                0x080002c4                        _etext = .
+                0x080002c4                        _sidata = LOADADDR (.data)
+
+.glue_7         0x080002c4        0x0
+ .glue_7        0x080002c4        0x0 linker stubs
+
+.glue_7t        0x080002c4        0x0
+ .glue_7t       0x080002c4        0x0 linker stubs
+
+.vfp11_veneer   0x080002c4        0x0
+ .vfp11_veneer  0x080002c4        0x0 linker stubs
+
+.v4_bx          0x080002c4        0x0
+ .v4_bx         0x080002c4        0x0 linker stubs
+
+.iplt           0x080002c4        0x0
+ .iplt          0x080002c4        0x0 main.o
+
+.rel.dyn        0x080002c4        0x0
+ .rel.iplt      0x080002c4        0x0 main.o
+
+.data           0x20000000        0x0 load address 0x080002c4
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sdata = .
+ *(.data)
+ .data          0x20000000        0x0 main.o
+ .data          0x20000000        0x0 startup_stm32f407.o
+ .data          0x20000000        0x0 init_io.o
+ .data          0x20000000        0x0 spi_slave.o
+ *(.data.*)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _edata = .
+
+.igot.plt       0x20000000        0x0 load address 0x080002c4
+ .igot.plt      0x20000000        0x0 main.o
+
+.bss            0x20000000        0x0 load address 0x080002c4
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sbss = .
+ *(.bss)
+ .bss           0x20000000        0x0 main.o
+ .bss           0x20000000        0x0 startup_stm32f407.o
+ .bss           0x20000000        0x0 init_io.o
+ .bss           0x20000000        0x0 spi_slave.o
+ *(.bss.*)
+ *(COMMON)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _ebss = .
+OUTPUT(spi_slave.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x3fe
+ .debug_info    0x00000000      0x113 main.o
+ .debug_info    0x00000113      0x12e startup_stm32f407.o
+ .debug_info    0x00000241       0x97 init_io.o
+ .debug_info    0x000002d8      0x126 spi_slave.o
+
+.debug_abbrev   0x00000000      0x2a4
+ .debug_abbrev  0x00000000       0xc6 main.o
+ .debug_abbrev  0x000000c6       0xd8 startup_stm32f407.o
+ .debug_abbrev  0x0000019e       0x52 init_io.o
+ .debug_abbrev  0x000001f0       0xb4 spi_slave.o
+
+.debug_aranges  0x00000000       0x80
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 startup_stm32f407.o
+ .debug_aranges
+                0x00000040       0x20 init_io.o
+ .debug_aranges
+                0x00000060       0x20 spi_slave.o
+
+.debug_line     0x00000000      0x63e
+ .debug_line    0x00000000      0x16e main.o
+ .debug_line    0x0000016e      0x14b startup_stm32f407.o
+ .debug_line    0x000002b9      0x135 init_io.o
+ .debug_line    0x000003ee      0x250 spi_slave.o
+
+.debug_str      0x00000000      0x1c4
+ .debug_str     0x00000000      0x1c4 main.o
+                                0x18c (size before relaxing)
+ .debug_str     0x000001c4      0x175 startup_stm32f407.o
+ .debug_str     0x000001c4      0x127 init_io.o
+ .debug_str     0x000001c4      0x16a spi_slave.o
+
+.comment        0x00000000       0x44
+ .comment       0x00000000       0x44 main.o
+                                 0x45 (size before relaxing)
+ .comment       0x00000044       0x45 startup_stm32f407.o
+ .comment       0x00000044       0x45 init_io.o
+ .comment       0x00000044       0x45 spi_slave.o
+
+.ARM.attributes
+                0x00000000       0x2e
+ .ARM.attributes
+                0x00000000       0x2e main.o
+ .ARM.attributes
+                0x0000002e       0x2e startup_stm32f407.o
+ .ARM.attributes
+                0x0000005c       0x2e init_io.o
+ .ARM.attributes
+                0x0000008a       0x2e spi_slave.o
+
+.debug_frame    0x00000000      0x128
+ .debug_frame   0x00000000       0x30 main.o
+ .debug_frame   0x00000030       0x48 startup_stm32f407.o
+ .debug_frame   0x00000078       0x30 init_io.o
+ .debug_frame   0x000000a8       0x80 spi_slave.o
